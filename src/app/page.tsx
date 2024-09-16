@@ -1,7 +1,7 @@
-import Table from "@/components/myTable";
+import BidsList from './bidsList'
 
 export default function Home() {
   return (
-    <Table />
+    <BidsList />
   );
 }
