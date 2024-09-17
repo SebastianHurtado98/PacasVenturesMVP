@@ -59,7 +59,81 @@ export async function fetchBidById(id: string) {
             return data;
         } catch (error) {
             console.error('Error fetching proposals:', error);
+            return [];
+        }
+    }
+
+    export async function fetchProposalById(id: string) {
+        try {
+            const { data, error } = await supabase
+                .from('proposal')
+                .select(`
+                    *,
+                    subcontractor:subcontractor_id (*)
+                `)
+                .eq('id', id)
+                .single();
+    
+            if (error) {
+                throw error;
+            }
+            return data;
+        } catch (error) {
+            console.error('Error fetching proposal:', error);
             return null;
         }
     }
     
+    export async function fetchMatches() {
+      try {
+          const { data, error } = await supabase
+              .from('match')
+              .select(`
+                  *,
+                  proposal:proposal_id (
+                      *,
+                      subcontractor:subcontractor_id (*)
+                  )
+              `);
+  
+          if (error) {
+              throw error;
+          }
+          return data;
+      } catch (error) {
+          console.error('Error fetching matches:', error);
+          return null;
+      }
+  }
+
+  export async function updateProposalStatusById(id: string, status: string) {
+    try {
+        const { data, error } = await supabase
+            .from('proposal')
+            .update({ 'status': status })
+            .eq('id', id);
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (error) {
+        console.error('Error updating proposal status:', error);
+        return null;
+    }
+  }
+
+  export async function updateProposalFastPayStatusById(id: string, status: string) {
+    try {
+        const { data, error } = await supabase
+            .from('proposal')
+            .update({ 'fast_pay_status': status })
+            .eq('id', id);
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (error) {
+        console.error('Error updating proposal fast pay status:', error);
+        return null;
+    }
+  }

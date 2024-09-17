@@ -1,7 +1,7 @@
-import BidsList from './bidsList'
+import NavigationList from './navigationList';
 
 export default function Home() {
   return (
-    <BidsList />
+    <NavigationList />
   );
 }
